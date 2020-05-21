@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--handlerMapping：BeanNameUrlHandlerMapping(默认)/SimpleUrlHandlerMapping/RequestMappingHandlerMapping(默认)-->
+    <!--第一种HandleMapping: BeanNameUrlHandlerMapping(默认)-->
+    <!--控制器-->
+    <bean name="/hello.do" class="com.suning.controller.SimpleControl"/>
+    <!--处理器-->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+
+
+    <!--第二种HandleMapping: SimpleUrlHandlerMapping-->
+    <!--控制器-->
+    <bean name="simpleControl" class="com.suning.controller.SimpleControl"/>
+    <!--url映射器-->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="urlMap">
+            <props>
+                <prop key="/hello2.do">simpleControl</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--执行适配器-&#45;&#45;SimpleUrlHandlerMapping对应的适配器SimpleControllerHandlerAdapter-->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
+
+    <bean name="/httpRequest.do" class="com.suning.controller.HttpRequestControl"/>
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+
+    <!--handlerAdapter：HttpRequestHandlerAdapter(默认)/SimpleControllerHandlerAdapter(默认)
+        /RequestMappingHandlerAdapter(默认)/SimpleServletHandlerAdapter-->
+
+
+    <!--视图解析器：FreeMarkerViewResolver/GroovyMarkupViewResolver/BeanNameViewResolver/InternalResourceViewResolver(默认)-->
+    <!--BeanNameViewResolver 配置视图解析器-->
+    <bean name="myView" class="com.suning.controller.MyView"/>
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+
+    <!--InternalResourceViewResolver 配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/page"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView"/>
+    </bean>
+
+    <!--<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"/>
+    <bean class="org.springframework.web.servlet.view.groovy.GroovyMarkupViewResolver"/>-->
+</beans>
